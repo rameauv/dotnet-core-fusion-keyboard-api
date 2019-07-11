@@ -11,5 +11,6 @@ namespace fusion_keyboard_api
         int Uninit();
         Mode GetCurrentMode();
         void SetMode(Mode mode);
+        void SetColorMatrix();
     }
 }

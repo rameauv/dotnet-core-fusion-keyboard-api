@@ -54,6 +54,8 @@ namespace fusion_keyboard_api
             return mode;
         }
 
+        public void SetColorMatrix() { }
+
         public void SetMode(Mode mode)
         {
             var tMode = new TMode
