@@ -9,5 +9,6 @@ namespace fusion_keyboard_api
         int InitApi();
         int UninitApi();
         int GetCurrentMode(ref TMode status);
+        int SetMode(ref TMode staMode);
     }
 }

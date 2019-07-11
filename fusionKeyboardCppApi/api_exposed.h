@@ -12,4 +12,5 @@ extern "C" API_API int dllexp_InitApi();
 
 extern "C" API_API int dllexp_UninitApi();
 
-extern "C" API_API int dllexp_GetCurrentMode(t_status*);
+extern "C" API_API int dllexp_GetCurrentMode(t_mode*);
+extern "C" API_API int dllexp_SetMode(t_mode*);

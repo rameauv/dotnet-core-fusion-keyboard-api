@@ -11,13 +11,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CoreCompat.LibUsbDotNet" Version="2.2.8-r102" />
+    <PackageReference Include="HidSharp" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="libusb-1.0.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="hidSharpApi\model\" />
   </ItemGroup>
 
 </Project>

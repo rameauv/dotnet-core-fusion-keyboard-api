@@ -16,5 +16,9 @@ namespace fusion_keyboard_api
         [DllImport(@"fusionKeyboardCppApi.dll")]
         public static extern int dllexp_GetCurrentMode(ref TMode status);
         public int GetCurrentMode(ref TMode status) => dllexp_GetCurrentMode(ref status);
+
+        [DllImport(@"fusionKeyboardCppApi.dll")]
+        public static extern int dllexp_SetMode(ref TMode status);
+        public int SetMode(ref TMode status) => dllexp_SetMode(ref status);
     }
 }

@@ -6,12 +6,12 @@ namespace fusion_keyboard_api
     public struct TMode
     {
         [MarshalAs(UnmanagedType.U4)]
-        public uint mode;
+        public byte mode;
         [MarshalAs(UnmanagedType.U4)]
-        public uint speed;
+        public byte speed;
         [MarshalAs(UnmanagedType.U4)]
-        public uint brightness;
+        public byte brightness;
         [MarshalAs(UnmanagedType.U4)]
-        public uint color;
+        public byte color;
     }
 }

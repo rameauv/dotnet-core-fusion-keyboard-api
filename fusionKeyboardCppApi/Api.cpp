@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "libusb.h"
 #include "enums.h"
+#include "commands.h"
 #include <cstdlib>
 
 double Api::compute_elapsed_time(struct timeval start, struct timeval end)
@@ -34,7 +35,7 @@ libusb_device_handle* Api::get_device_handle()
 	ssize_t cnt;
 	int r, i;
 	libusb_device_handle* _dev_handle = NULL;
-	int ret;
+	int ret = -15;
 
 	cnt = libusb_get_device_list(NULL, &devs);
 	if (cnt < 0)
@@ -44,7 +45,11 @@ libusb_device_handle* Api::get_device_handle()
 		if (is_valid_rgb_keyboard(devs[i]))
 		{
 			device = devs[i];
-			ret = libusb_open(device, &_dev_handle);
+			for (int i = 0; i < 30 && ret != 0; i++)
+			{
+				printf("try to open device:%d\n", i);
+				ret = libusb_open(device, &_dev_handle);
+			}
 			printf("ret_handle:%d\n", ret);
 			if (LIBUSB_SUCCESS == ret)
 			{
@@ -62,7 +67,6 @@ libusb_device_handle* Api::get_device_handle()
 int Api::initDevice()
 {
 	int r = 0;
-
 	_dev_handle = get_device_handle();
 	//_dev_handle = libusb_open_device_with_vid_pid(CTX, 0x1044, 0x7a39);
 	if (_dev_handle == NULL) {
@@ -81,10 +85,10 @@ int Api::initDevice()
 
 	//gettimeofday(&start, NULL);
 	r = libusb_claim_interface(_dev_handle, 0);
-	if (r < 0) {
-		printf("Failed to claim ctrl interface! %d\n", r);
-		return 4;
-	}
+	//if (r < 0) {
+	//	printf("Failed to claim ctrl interface! %d\n", r);
+	//	return 4;
+	//}
 	r = libusb_claim_interface(_dev_handle, 3);
 	if (r < 0) {
 		printf("Failed to claim interface! %d\n", r);
@@ -134,7 +138,7 @@ int Api::initDevice()
 int Api::initLibusb()
 {
 	int r = libusb_init(&_ctx);
-	r = libusb_set_option(_ctx, LIBUSB_OPTION_USE_USBDK);
+	//r = libusb_set_option(_ctx, LIBUSB_OPTION_USE_USBDK);
 	int exitcode = 0;
 	if (r < 0) {
 		printf("libusb_init error %d\n", r);
@@ -146,6 +150,8 @@ int Api::initLibusb()
 int Api::Init() {
 	int r = 0;
 
+	if (this->_init)
+		return 0;
 	_ctx = NULL;
 	_dev_handle = NULL;
 	r = initLibusb();
@@ -157,6 +163,7 @@ int Api::Init() {
 	//r = get_current_mode(_dev_handle);
 	//r = set_mode(_dev_handle, MODE_STATIC, COLOR_GREEN, 50, 8);
 	printf("native: init done\n");
+	this->_init = true;
 	return 0;
 }
 
@@ -172,7 +179,12 @@ int Api::Uninit()
 	return 0;
 }
 
-int Api::GetCurrentMode(t_status* status)
+int Api::GetCurrentMode(t_mode* mode)
 {
-	return (get_current_mode(this->_dev_handle, status));
+	return (Commands::get_current_mode(this->_dev_handle, mode));
+}
+
+int Api::SetMode(t_mode* mode)
+{
+	return (Commands::set_mode(this->_dev_handle, mode->mode, mode->color, mode->brightness, mode->speed));
 }

@@ -5,10 +5,11 @@ using fusion_keyboard_api.models;
 
 namespace fusion_keyboard_api
 {
-    interface IFusionKeyboardApi
+    public interface IFusionKeyboardApi
     {
         int Init();
         int Uninit();
         Mode GetCurrentMode();
+        void SetMode(Mode mode);
     }
 }

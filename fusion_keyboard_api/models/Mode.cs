@@ -2,9 +2,10 @@
 {
     public class Mode
     {
-        public ModeType mode;
-        public uint speed;
-        public uint brightness;
+        public byte brightness;
         public ModeColor color;
+        public byte direction;
+        public ModeType mode;
+        public byte speed;
     }
 }

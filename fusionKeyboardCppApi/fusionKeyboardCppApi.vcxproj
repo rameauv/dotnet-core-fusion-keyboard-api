@@ -158,14 +158,15 @@
   <ItemGroup>
     <ClInclude Include="Api.h" />
     <ClInclude Include="api_exposed.h" />
+    <ClInclude Include="commands.h" />
     <ClInclude Include="enums.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="MathLibrary.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Status.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Api.cpp" />
+    <ClCompile Include="commands.cpp" />
     <ClCompile Include="data.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="api_exposed.cpp" />

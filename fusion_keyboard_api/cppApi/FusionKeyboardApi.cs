@@ -2,44 +2,68 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using fusion_keyboard_api.models;
-using LibUsbDotNet.Info;
-using LibUsbDotNet.Main;
 
 namespace fusion_keyboard_api
 {
     public class FusionKeyboardApi: IFusionKeyboardApi
     {
         private INativeApi _nativeApi;
+        private bool _init;
 
         public FusionKeyboardApi()
         {
             _nativeApi = new NativeApi();
+            _init = false;
         }
 
         public int Init()
         {
-            return _nativeApi.InitApi();
+            if (_init)
+                return 0;
+            var r =_nativeApi.InitApi();
+            if (r == 0)
+                _init = true;
+            return r;
         }
 
         public int Uninit()
         {
-            return _nativeApi.UninitApi();
+            if (!_init)
+                return 0;
+            var r = _nativeApi.UninitApi();
+            if (r == 0)
+            {
+                _init = false;
+            }
+            return r;
         }
 
         public Mode GetCurrentMode()
         {
-            var tstatus = new TMode();
-            var r = _nativeApi.GetCurrentMode(ref tstatus);
+            var tMode = new TMode();
+            var r = _nativeApi.GetCurrentMode(ref tMode);
             if (r != 0)
                 return null;
-            var status = new Mode
+            var mode = new Mode
             {
-                brightness = tstatus.brightness,
-                mode = (ModeType) tstatus.mode,
-                color = (ModeColor) tstatus.color,
-                speed = tstatus.speed
+                brightness = tMode.brightness,
+                mode = (ModeType) tMode.mode,
+                color = (ModeColor) tMode.color,
+                speed = tMode.speed
             };
-            return status;
+            return mode;
+        }
+
+        public void SetMode(Mode mode)
+        {
+            var tMode = new TMode
+            {
+                brightness = mode.brightness,
+                mode = (byte)mode.mode,
+                color = (byte)mode.color,
+                speed = 0x05
+            };
+            var r = _nativeApi.SetMode(ref tMode);
         }
     }
 }

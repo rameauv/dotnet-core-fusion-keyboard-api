@@ -8,14 +8,15 @@ namespace fusionKeyboardApp
     {
         static void Main(string[] args)
         {
-            using (var context = new FusionKeyboardApiContext())
+            using (var context = new HidSharpFusionKeyboardApiContext())
             {
                 var r = context.GetCurrentMode();
                 Console.WriteLine(".....................................................");
                 Console.WriteLine("Mode:" + r.mode);
                 Console.WriteLine("Brightness:" + r.brightness + "/50");
-                Console.WriteLine("Speed:" + r.speed);
                 Console.WriteLine("Color:" + r.color);
+                Console.WriteLine("Direction:" + r.direction);
+                Console.WriteLine("Speed:" + r.speed);
                 Console.WriteLine(".....................................................");
             }
             return;
